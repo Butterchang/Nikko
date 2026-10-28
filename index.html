@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>日光・鬼怒川 楓紅三日</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="2026年11月6〜8日・兩人三天兩夜的日光賞楓旅遊 app：行程、美食、指南、天氣。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>/* required styles */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg {
+	max-width: none !important;
+	max-height: none !important;
+	}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	width: auto;
+	padding: 0;
+	}
+
+.leaflet-container img.leaflet-tile {
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+	mix-blend-mode: plus-lighter;
+}
+
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
+
+
+/* control positioning */
+
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+svg.leaflet-zoom-animated {
+	will-change: transform;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline-offset: 1px;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url(images/layers.png);
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	font-size: 13px;
+	font-size: 1.08333em;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+	background-image: url(images/marker-icon.png);
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	line-height: 1.4;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus {
+	text-decoration: underline;
+	}
+.leaflet-attribution-flag {
+	display: inline !important;
+	vertical-align: baseline !important;
+	width: 1em;
+	height: 0.6669em;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #fff;
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 24px 13px 20px;
+	line-height: 1.3;
+	font-size: 13px;
+	font-size: 1.08333em;
+	min-height: 1px;
+	}
+.leaflet-popup-content p {
+	margin: 17px 0;
+	margin: 1.3em 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+	pointer-events: auto;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	font: 16px/24px Tahoma, Verdana, sans-serif;
+	color: #757575;
+	text-decoration: none;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+	color: #585858;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-interactive {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+
+/* Printing */
+
+@media print {
+	/* Prevent printers from removing background-images of controls. */
+	.leaflet-control {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		}
+	}
+</style>
+<style>
+/* Layout: 原生 app 式單頁——上方標題列、中間分頁內容、底部浮動導覽列；行程頁 = 地圖 + 每日切換 + 景點卡串成的路線 */
+:root{
+  --bg:#F4F3F0;            /* 暖灰，像和紙 */
+  --card:#FFFFFF;
+  --ink:#24302B;
+  --muted:#6E7772;
+  --line:#E3E1DC;
+  --shu:#C9432C;           /* 神橋的朱 */
+  --sugi:#2F5E4E;          /* 日光杉 */
+  --kin:#A8801F;           /* 東照宮的金 */
+  --momiji:#B3262E;
+  --sky:#3E6E9E;           /* 交通 */
+  --shu-w:#FBE7E2; --sugi-w:#E1EEE8; --kin-w:#F6EDD3; --sky-w:#E3ECF5;
+  --shadow:0 2px 10px rgba(40,48,44,.07);
+  --f-ui:"Noto Sans TC","PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
+  --f-round:"Zen Maru Gothic","Noto Sans TC","Hiragino Maru Gothic ProN",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917;--card:#1D2421;--ink:#E7ECE9;--muted:#9DA8A2;--line:#2E3733;
+  --shu:#EA6A52;--sugi:#6DB89D;--kin:#D8B154;--momiji:#E35A60;--sky:#7FA9D6;
+  --shu-w:#3A231E;--sugi-w:#1B3229;--kin-w:#342B15;--sky-w:#1C2A38;--shadow:0 2px 10px rgba(0,0,0,.35);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917;--card:#1D2421;--ink:#E7ECE9;--muted:#9DA8A2;--line:#2E3733;
+  --shu:#EA6A52;--sugi:#6DB89D;--kin:#D8B154;--momiji:#E35A60;--sky:#7FA9D6;
+  --shu-w:#3A231E;--sugi-w:#1B3229;--kin-w:#342B15;--sky-w:#1C2A38;--shadow:0 2px 10px rgba(0,0,0,.35);color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:1001;background:var(--sugi)}
+button{font:inherit;color:inherit}
+a{color:var(--sugi)}
+:focus-visible{outline:2px solid var(--shu);outline-offset:2px}
+.round{font-family:var(--f-round)}
+
+/* header */
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:1000;background:var(--sugi);color:#fff;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px}
+.hd-in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.hd-mark{flex:none;width:38px;height:38px;border-radius:12px;background:var(--shu);display:grid;place-items:center}
+.hd h1{font-family:var(--f-round);font-size:18px;font-weight:900;margin:0;line-height:1.25;text-wrap:balance}
+.hd p{margin:0;font-size:12px;opacity:.85}
+
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 120px}
+.page{max-width:720px;margin:0 auto}
+.page[hidden]{display:none!important}
+h2.sec{font-family:var(--f-round);font-size:17px;font-weight:900;margin:26px 0 10px;display:flex;align-items:center;gap:8px}
+h2.sec::before{content:"";width:6px;height:18px;border-radius:3px;background:var(--c,var(--shu))}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+
+/* map */
+.mapwrap{scroll-margin-top:80px;position:relative;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:var(--card)}
+#map{height:min(46vh,380px);min-height:260px;width:100%;background:var(--sky-w)}
+.map-off #map{background-color:var(--sky-w);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px}
+.map-note{position:absolute;left:10px;bottom:10px;z-index:500;font-size:11px;background:var(--card);color:var(--muted);border-radius:8px;padding:3px 8px;box-shadow:var(--shadow)}
+.leaflet-container{font-family:var(--f-ui)}
+.leaflet-tooltip.lbl{background:var(--card);color:var(--ink);border:none;box-shadow:var(--shadow);font-size:11px;padding:1px 6px;border-radius:6px}
+.leaflet-tooltip.lbl::before{display:none}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);color:var(--ink)}
+.pin{width:26px;height:26px;border-radius:50%;color:#fff;display:grid;place-items:center;font:700 12px/1 var(--f-round);border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+
+/* day switch */
+.days{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:2px}
+.daybtn{flex:1;min-width:96px;border:none;background:var(--card);border-radius:14px;padding:8px 10px;text-align:left;box-shadow:var(--shadow);cursor:pointer}
+.daybtn b{display:block;font-family:var(--f-round);font-size:15px}
+.daybtn span{font-size:11.5px;color:var(--muted)}
+.daybtn[aria-pressed="true"]{background:var(--dc);color:#fff}
+.daybtn[aria-pressed="true"] span{color:#fff;opacity:.85}
+
+.dayhint{margin-top:14px;border-radius:16px;padding:12px 14px;background:var(--dw);font-size:13.5px;display:grid;gap:6px}
+.dayhint .row{display:flex;gap:8px}
+.dayhint .ic{flex:none;width:20px;text-align:center}
+
+/* spot cards */
+.spot{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);margin-top:12px}
+.ph{position:relative;height:168px;background:var(--dw)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph .grad{position:absolute;inset:0;display:none;place-items:center;font-size:42px;background:linear-gradient(135deg,var(--dw),var(--card))}
+.ph .credit{position:absolute;right:8px;bottom:6px;font-size:10px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);text-decoration:none}
+.ph .num{position:absolute;left:10px;top:10px}
+.sbody{padding:12px 14px 14px}
+.cat{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:1px 7px;color:#fff}
+.cat.景點{background:var(--shu)}.cat.美食{background:var(--kin)}.cat.交通{background:var(--sky)}.cat.住宿{background:var(--sugi)}.cat.活動{background:var(--momiji)}.cat.購物{background:var(--sugi)}
+.toprow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.time{font-family:var(--f-round);font-weight:700;color:var(--muted);font-size:13px}
+.spot h3{font-family:var(--f-round);font-size:18px;font-weight:900;margin:4px 0 0;line-height:1.35}
+.spot h3 .jp{font-size:12px;font-weight:500;color:var(--muted);margin-left:6px}
+.spot .desc{margin:6px 0 0;font-size:14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px}
+.t-拍{background:var(--shu-w);color:var(--shu)}.t-吃{background:var(--kin-w);color:var(--kin)}.t-買{background:var(--sugi-w);color:var(--sugi)}.t-opt{background:transparent;border:1px solid var(--muted);color:var(--muted)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin-top:10px;font-size:12.5px}
+.meta dt{color:var(--muted)}
+.meta dd{margin:0;min-width:0}
+.warn{margin-top:8px;font-size:12.5px;color:var(--shu);font-weight:500}
+.tip{margin-top:10px;font-size:12.5px;border-radius:12px;background:var(--bg);padding:8px 10px}
+.tip b{color:var(--shu)}
+.acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;text-decoration:none;font-size:13px;font-weight:700;border-radius:12px;padding:8px 12px;background:var(--dc,var(--sugi));color:#fff}
+.btn.ghost{background:var(--bg);color:var(--ink)}
+.btn svg{width:16px;height:16px}
+
+.go{display:flex;align-items:center;gap:8px;margin:10px 0 0 22px;padding-left:14px;border-left:2px dashed var(--line);font-size:12.5px;color:var(--muted);min-height:30px}
+.go b{color:var(--sky);font-weight:700}
+
+.stay{margin-top:14px;border-radius:18px;padding:14px;background:var(--card);box-shadow:var(--shadow);border:2px solid var(--sugi-w)}
+.stay h3{font-family:var(--f-round);margin:4px 0 6px;font-size:17px}
+.stay ul{margin:0;padding-left:18px;font-size:13.5px}
+.stay li+li{margin-top:4px}
+
+/* food */
+.fgrid{display:grid;gap:10px}
+.food{background:var(--card);border-radius:16px;box-shadow:var(--shadow);display:grid;grid-template-columns:104px 1fr;overflow:hidden}
+.food .fimg{position:relative;background:var(--kin-w);min-height:112px}
+.food .fimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.food .fimg .grad{position:absolute;inset:0;display:grid;place-items:center;font-size:34px}
+.food .fb{padding:10px 12px;min-width:0}
+.food h3{font-family:var(--f-round);font-size:15.5px;margin:3px 0 0}
+.food .menu{color:var(--momiji);font-weight:700;font-size:13px;margin-top:2px}
+.food p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+.food .acts{margin-top:8px}
+.food .btn{padding:5px 10px;font-size:12px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.fchip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 12px;font-size:12.5px;cursor:pointer}
+.fchip[aria-pressed="true"]{background:var(--kin);border-color:var(--kin);color:#fff}
+
+/* guide */
+.box{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:14px;margin-top:10px}
+.train{border-radius:16px;overflow:hidden;margin-top:10px;box-shadow:var(--shadow);background:var(--card)}
+.train .tt{background:var(--shu);color:#fff;padding:12px 14px}
+.train .tt small{display:block;font-size:11.5px;opacity:.85}
+.train .tt .big{font-family:var(--f-round);font-size:28px;font-weight:900;margin-right:6px}
+.train .alts{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px}
+.train .alt{border:1px solid var(--line);border-radius:10px;padding:4px 10px;font-size:12.5px}
+.train .alt b{font-family:var(--f-round)}
+.train .tnote{padding:0 14px 12px;font-size:12px;color:var(--shu)}
+.route{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px}
+.st{background:var(--sky);color:#fff;border-radius:6px;padding:2px 8px;font-weight:700}
+.arr{color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+.tw{overflow-x:auto}
+td,th{padding:8px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-family:var(--f-round);font-weight:700}
+tr:last-child td{border-bottom:none}
+
+.pack-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.pk{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:6px}
+.pk li{display:grid;grid-template-columns:auto 1fr auto auto auto;align-items:center;gap:8px;background:var(--bg);border-radius:12px;padding:6px 8px;font-size:14px}
+.pk li.done .nm{text-decoration:line-through;color:var(--muted)}
+.pk input[type=checkbox]{width:18px;height:18px;accent-color:var(--sugi)}
+.pk .nm{min-width:0;overflow-wrap:anywhere}
+.qb{width:28px;height:28px;border-radius:8px;border:none;background:var(--card);cursor:pointer;font-weight:700}
+.qty{font-family:var(--f-round);font-weight:700;min-width:22px;text-align:center}
+.del{border:none;background:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 4px}
+.addrow{display:flex;gap:6px;margin-top:10px}
+.addrow input{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:var(--card);color:var(--ink);font:inherit}
+.field{display:grid;gap:4px;margin-top:10px;font-size:13px}
+.field input{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:var(--bg);color:var(--ink);font:inherit}
+.sos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.sos div{background:var(--bg);border-radius:12px;padding:8px 10px;font-size:12.5px}
+.sos b{display:block;font-family:var(--f-round);font-size:18px;color:var(--shu);user-select:all}
+.rules{margin:8px 0 0;padding-left:18px;font-size:13.5px}
+.rules li+li{margin-top:5px}
+
+/* weather */
+.wgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin-top:10px}
+.wcard{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:14px;border-top:5px solid var(--dc)}
+.wcard .wd{font-family:var(--f-round);font-weight:900;font-size:16px}
+.wcard .temp{font-family:var(--f-round);font-size:26px;font-weight:900;margin-top:4px}
+.wcard .temp small{font-size:13px;color:var(--muted);font-weight:500}
+.wcard ul{margin:8px 0 0;padding-left:18px;font-size:13px}
+.front{overflow-x:auto}
+.fg{min-width:500px;display:grid;grid-template-columns:130px 1fr;row-gap:10px;align-items:center;font-size:12.5px}
+.fax{position:relative;height:18px;font-size:11px;color:var(--muted)}
+.fax span{position:absolute;transform:translateX(-50%)}
+.trk{position:relative;height:16px;border-radius:4px;background:var(--bg)}
+.bar{position:absolute;top:3px;height:10px;border-radius:3px;background:var(--momiji)}
+.trip{position:absolute;top:-5px;bottom:-5px;border:1.5px dashed var(--shu);border-radius:4px;background:color-mix(in srgb,var(--shu) 10%,transparent)}
+.fl b{display:block}.fl span{font-size:11px;color:var(--muted)}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:1000;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.nav-in{pointer-events:auto;max-width:440px;margin:0 auto;background:var(--card);border-radius:22px;box-shadow:0 6px 24px rgba(30,40,35,.18);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}
+.nav button{border:none;background:none;cursor:pointer;display:grid;justify-items:center;gap:2px;padding:6px 0;border-radius:16px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.nav button svg{width:22px;height:22px}
+.nav button[aria-selected="true"]{background:var(--sugi);color:#fff}
+footer{font-size:11.5px;color:var(--muted);margin-top:28px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+
+</head>
+<body>
+<header class="hd"><div class="hd-in">
+  <div class="hd-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l1.6 4.2L18 5l-2 4 4 1.2-3.6 2.4L19 16l-4.3-.7L12 22l-2.7-6.7L5 16l2.6-3.4L4 10.2 8 9 6 5l4.4 1.2z"/></svg></div>
+  <div><h1>日光・鬼怒川 楓紅三日</h1><p>2026/11/6（五）– 11/8（日）・2 人・電車＋巴士</p></div>
+</div></header>
+
+<main>
+<!-- ═════ 行程 ═════ -->
+<section class="page" id="p-trip" aria-label="行程">
+  <div class="mapwrap" id="mapwrap"><div id="map" role="region" aria-label="行程地圖"></div><div class="map-note" id="mapnote" hidden>底圖載入中…</div></div>
+  <div class="days" id="days"></div>
+  <div class="dayhint" id="dayhint"></div>
+  <div id="stops"></div>
+</section>
+
+<!-- ═════ 美食 ═════ -->
+<section class="page" id="p-food" aria-label="美食" hidden>
+  <h2 class="sec" style="--c:var(--kin)">吃什麼・買什麼</h2>
+  <p class="muted small" style="margin:0">日光的湯波寫作「湯波」，是兩層拉起、中間夾著豆乳的厚版本，跟京都的薄「湯葉」不一樣。</p>
+  <div class="filters" id="ffilter"></div>
+  <div class="fgrid" id="foodlist" style="margin-top:10px"></div>
+</section>
+
+<!-- ═════ 指南 ═════ -->
+<section class="page" id="p-guide" aria-label="指南" hidden>
+  <h2 class="sec" style="--c:var(--shu)">特急 スペーシアX</h2>
+  <div class="train">
+    <div class="tt"><small>去程・浅草 → 東武日光（Day 1）</small><span class="big">07:50</span>1號 → 東武日光 09:39</div>
+    <div class="alts"><span class="muted small" style="width:100%">⚠️ 搭不上的話</span>
+      <span class="alt"><b>09:00</b> 3號 → 10:50</span><span class="alt"><b>10:00</b> 5號 → 11:49</span></div>
+    <div class="tnote">⚡ 晚一班就會壓縮東照宮時間（11月 15:30 停止受理）。11/6 的特急券已在 10/6 開賣，請盡快訂位</div>
+  </div>
+  <div class="train">
+    <div class="tt" style="background:var(--sugi)"><small>回程・鬼怒川溫泉 → 浅草（Day 3）</small><span class="big">15:19</span>8號 → 浅草 17:35</div>
+    <div class="alts"><span class="muted small" style="width:100%">⚠️ 搭不上的話</span>
+      <span class="alt"><b>16:40</b> 10號 → 18:45</span></div>
+    <div class="tnote" style="color:var(--sugi)">⚡ 11/8 是週日回程尖峰，在「トブチケ！」看到空位就先訂；8 號滿了再改 10 號</div>
+  </div>
+
+  <div class="box">
+    <b class="round">當地移動</b>
+    <div class="route" style="margin-top:8px"><span class="st">東武日光</span><span class="arr">→</span><span class="muted">世界遺産めぐりバス 約7–10分</span><span class="arr">→</span><span class="st">神橋・表參道</span></div>
+    <div class="route" style="margin-top:6px"><span class="st">東武日光</span><span class="arr">→</span><span class="muted">下今市轉車 約40分</span><span class="arr">→</span><span class="st">鬼怒川溫泉</span></div>
+    <div class="route" style="margin-top:6px"><span class="st">鬼怒川溫泉</span><span class="arr">→</span><span class="muted">鬼怒川線＋野岩鐵道 約20分・約1小時1班</span><span class="arr">→</span><span class="st">龍王峡</span></div>
+    <p class="small muted" style="margin:8px 0 0">「世界遺産めぐり手形」600円，當天循環巴士無限搭，在東武日光站買。也可以比較東武「NIKKO MaaS」數位周遊券（浅草發 3,000円起，特急券另購）。</p>
+  </div>
+
+  <h2 class="sec" style="--c:var(--kin)">預算概算（每人）</h2>
+  <div class="box tw"><table>
+    <tr><td>浅草 → 東武日光（運賃＋特急券）</td><td class="n">3,340〜</td></tr>
+    <tr><td>世界遺産めぐり手形</td><td class="n">600</td></tr>
+    <tr><td>Day 2 市區巴士＋往鬼怒川</td><td class="n">約 800</td></tr>
+    <tr><td>鬼怒川溫泉 ⇄ 龍王峡</td><td class="n">約 600</td></tr>
+    <tr><td>鬼怒川溫泉 → 浅草（運賃＋特急券）</td><td class="n">3,530〜</td></tr>
+    <tr><td>門票：東照宮・輪王寺券・二荒山神苑・田母澤</td><td class="n">3,400</td></tr>
+    <tr><td><b>合計（不含住宿、餐飲）</b></td><td class="n">約 12,300〜</td></tr>
+  </table>
+  <p class="small muted" style="margin:6px 0 0">特急券通常期 1,940円，秋季週末多半是繁忙期而更貴，以購票畫面為準。龍王峡與巴士票價為估算。</p></div>
+
+  <h2 class="sec" style="--c:var(--sugi)">行李打包清單</h2>
+  <div class="box">
+    <div class="pack-tabs" id="packtabs"></div>
+    <ul class="pk" id="packlist"></ul>
+    <form class="addrow" id="packform"><label for="packin" class="muted small" hidden>新增項目</label><input id="packin" placeholder="新增項目，例：自拍棒" autocomplete="off"><button class="btn" type="submit">新增</button></form>
+    <p class="small muted" style="margin:8px 0 0">勾選與新增會記在這台裝置上。</p>
+  </div>
+
+  <h2 class="sec" style="--c:var(--shu)">日本旅遊小提醒</h2>
+  <div class="box"><ul class="rules">
+    <li>東照宮本殿、田母澤御用邸室內要<b>脫鞋</b>，穿好穿脫的鞋、帶雙乾淨襪子。</li>
+    <li>東照宮境內部分建築<b>禁止攝影</b>（如鳴龍、本殿內），看到告示就收起相機。</li>
+    <li>湯波午餐、部分小店<b>只收現金</b>，帶 1 萬円左右的零錢備用。</li>
+    <li>溫泉：先洗淨身體再入池，毛巾不放進池裡，有刺青請先確認旅館規定。</li>
+    <li>日光、鬼怒川都有野生猴子，<b>不要拿著食物邊走邊吃</b>，也不要對到眼。</li>
+    <li>日光市幾乎全域是熊的棲息地，清晨步道結伴、別走太偏。</li>
+  </ul></div>
+
+  <h2 class="sec" style="--c:var(--momiji)">緊急資訊</h2>
+  <div class="box"><div class="sos">
+    <div><b>110</b>警察</div>
+    <div><b>119</b>消防・救護車</div>
+    <div><b>0288-22-1525</b>日光市觀光協會</div>
+    <div><b>03-5962-0102</b>東武鐵道客服（9–18時）</div>
+  </div><p class="small muted" style="margin:8px 0 0">電話號碼可長按複製。</p></div>
+
+  <h2 class="sec" style="--c:var(--sky)">資料總匯</h2>
+  <div class="box">
+    <div class="field"><label for="bk-train">スペーシアX 訂位編號</label><input id="bk-train" data-key="train" placeholder="例：去程 1號 3號車 7AB"></div>
+    <div class="field"><label for="bk-h1">第 1 晚 飯店</label><input id="bk-h1" data-key="h1" placeholder="飯店名稱／訂房編號"></div>
+    <div class="field"><label for="bk-h2">第 2 晚 溫泉旅館</label><input id="bk-h2" data-key="h2" placeholder="旅館名稱／訂房編號／晚餐時間"></div>
+    <div class="field"><label for="bk-link">訂單連結（雲端）</label><input id="bk-link" data-key="link" placeholder="貼上 Google Drive 等連結"></div>
+    <div class="acts"><a class="btn ghost" id="bk-open" href="#" target="_blank" rel="noopener" hidden>開啟訂單連結 ↗</a></div>
+    <p class="small muted" style="margin:6px 0 0">這些欄位只存在這台裝置上，不會傳給別人。</p>
+  </div>
+</section>
+
+<!-- ═════ 天氣 ═════ -->
+<section class="page" id="p-weather" aria-label="天氣" hidden>
+  <h2 class="sec" style="--c:var(--sky)">11/6–8 的天氣與穿搭</h2>
+  <p class="small muted" style="margin:0">10/30 前後就會有一週預報，出發前記得點下面的連結看。以下是氣候推估：氣象廳「日光」觀測站在海拔約 1,290m 的奧日光，11 月整月平均最高 8.6℃、平均最低 −0.2℃；市區海拔低約 700m、通常再暖 3–4℃，11 月上旬又比月平均暖一些。</p>
+  <div class="wgrid" id="wgrid"></div>
+  <div class="acts">
+    <a class="btn" style="--dc:var(--sky)" href="https://tenki.jp/kouyou/3/12/34661.html" target="_blank" rel="noopener">tenki.jp 日光社寺紅葉＋天氣 ↗</a>
+    <a class="btn ghost" href="https://www.nikko-kankou.org/flowering/autumn-leaves" target="_blank" rel="noopener">日光旅ナビ 紅葉情報 ↗</a>
+  </div>
+
+  <h2 class="sec" style="--c:var(--momiji)">紅葉前線</h2>
+  <div class="box front"><div class="fg" id="front"></div>
+    <p class="small muted" style="margin:10px 0 0"><span style="display:inline-block;width:16px;height:8px;border-radius:2px;background:var(--momiji)"></span> 例年見頃　<span style="display:inline-block;width:16px;height:10px;border:1.5px dashed var(--shu);border-radius:3px;vertical-align:middle"></span> 你們的旅程（11/6–8）</p></div>
+  <p class="small muted">2026 年秋天偏暖，氣象公司預測 10 月下旬以後的名所見頃會稍晚。日光旅ナビ 10/26 顯示：中禪寺湖「真っ盛り」、世界遺產社寺「色づき始め」。11/6–8 社寺、田母澤、鬼怒川、龍王峡都落在見頃期間內。中禪寺湖例年見頃到 11 月上旬，可能還看得到尾聲，但週末いろは坂塞車嚴重、明智平纜車 2026 年整修停駛，所以這趟沒有排進去。</p>
+
+  <footer>資料確認日：2026/10/28。景點照片全部來自 Wikimedia Commons，每張都確認過檔案說明或拍攝座標就是該景點，授權為 CC 或公有領域，點照片右下可看作者與出處。照片拍攝季節不一定是秋天。沒有可信實景照片的店家用圖示代替。營業時間、票價以官方為準。</footer>
+</section>
+</main>
+
+<nav class="nav" aria-label="分頁"><div class="nav-in" role="tablist" id="nav">
+  <button role="tab" data-p="trip" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>行程</button>
+  <button role="tab" data-p="food" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/><path d="M8 8c0-2 2-2 2-4M13 8c0-2 2-2 2-4"/></svg>美食</button>
+  <button role="tab" data-p="guide" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M4 12h16"/></svg>指南</button>
+  <button role="tab" data-p="weather" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><path d="M8 2v1.5M2.5 9H4M3.9 4.9l1 1M12.1 4.9l-1 1"/><path d="M9 19h9a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.6 1.5A3 3 0 0 0 9 19z"/></svg>天氣</button>
+</div></nav>
+
+<script>
+/* ── helpers ── */
+const $ = s => document.querySelector(s);
+const gm = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+const ph = f => "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(f) + "?width=800";
+const cp = f => "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(f);
+const store = {
+  get(k, d){ try { const v = localStorage.getItem("nikko-app-" + k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem("nikko-app-" + k, JSON.stringify(v)); } catch(e){} }
+};
+const DAYCOL = {1:"var(--shu)",2:"var(--kin)",3:"var(--sugi)"};
+const DAYW = {1:"var(--shu-w)",2:"var(--kin-w)",3:"var(--sugi-w)"};
+const PIN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+
+/* ── 行程資料 ── */
+const DAYS = {
+1:{name:"11/6 五", sub:"世界遺產＋夜間點燈",
+  hint:[["🧥","白天約 12–15℃、晚上點燈時只剩個位數：發熱衣＋毛衣＋防風外套，晚上加手套、毛帽。"],["👟","東照宮、奧宮、大猷院石階很多，穿好走、好脫的鞋（本殿要脫鞋）。"],["🍁","社寺一帶例年 11 月上〜中旬見頃；10/26 剛「色づき始め」，今天應該正在轉紅。"],["🏮","今晚起連續 3 天是「ライトアップNIKKO 2026」，週五通常比週末人少，今晚最適合看點燈。"]],
+  stops:[
+  {no:1,t:"09:45",cat:"美食",n:"日光さかえや",jp:"揚げゆばまんじゅう",lat:36.7478,lng:139.6188,img:null,emoji:"🍡",
+   d:"出東武日光站就是。日光湯波皮包紅豆餡下鍋炸，撒一點鹽，外酥內軟，旅程的第一口。",tags:["吃"],stay:"10分",hours:"9:30–17:00",q:"日光さかえや 揚げゆばまんじゅう本舗",
+   go:"世界遺産めぐりバス 約 7 分（先在站內買 600円 一日券）"},
+  {no:2,t:"10:15",cat:"景點",n:"神橋",jp:"しんきょう",lat:36.7534,lng:139.6040,img:"Shinkyo_bridge,_Nikko,_Tochigi,_Japan_-_September_2015.jpg",emoji:"🌉",
+   d:"跨在大谷川上的朱紅色橋，日本三大奇橋之一。橋、清澈河水和兩岸楓葉同框，是日光最經典的一張照片。",tags:["拍"],stay:"15分",hours:"車道旁隨時可拍（上橋需另購票）",q:"神橋 日光",
+   tip:"站在國道旁人行道，把橋放在畫面下方三分之一，上面留給楓葉和杉林。",
+   go:"步行 約 10 分（走上表參道石階）"},
+  {no:3,t:"10:35",cat:"景點",n:"日光山輪王寺 三佛堂",jp:"りんのうじ さんぶつどう",lat:36.7551,lng:139.6005,img:"Rinnoji_sanbutsudo.jpg",emoji:"⛩️",
+   d:"日光山的本堂，堂內三尊巨大金色佛像很震撼。在這裡買「輪王寺券」，下午還能用同一張票進大猷院。",tags:[],stay:"30分",hours:"8:00–16:00（受理至 15:30）",fee:"輪王寺券 900円",q:"日光山輪王寺 三仏堂",
+   go:"步行 約 5 分"},
+  {no:4,t:"11:10",cat:"景點",n:"日光東照宮",jp:"とうしょうぐう",lat:36.7581,lng:139.5987,img:"Nikko_Toshogu_Yomeimon_Gate_2024.jpg",emoji:"🏯",
+   d:"祭祀德川家康的神社。看三猿、陽明門、眠貓，再爬 200 多階石階到奧宮的家康公墓所。",tags:["拍"],stay:"90分",hours:"9:00–16:00（受理至 15:30）",fee:"1,600円",q:"日光東照宮",
+   warn:"窗口常排長隊，可先在網路買票；本殿內要脫鞋、禁止攝影",
+   tip:"三猿在入口附近的神厩舎；眠貓在往奧宮的東迴廊門上，記得抬頭。陽明門人多時，退到石階下用直幅拍全景。",
+   go:"步行 約 7 分（下東參道）"},
+  {no:5,t:"12:45",cat:"美食",n:"明治の館",jp:"めいじのやかた",lat:36.7568,lng:139.6030,img:null,emoji:"🍳",
+   d:"美國貿易商別墅改建的石造洋館餐廳，登錄有形文化財。招牌是蛋包飯，午餐時段要先抽號碼牌等位。",tags:["吃"],stay:"60分",hours:"11:00–19:30",menu:"オムレツライス",q:"明治の館 日光",
+   go:"步行 約 10 分（回到東照宮旁）"},
+  {no:6,t:"14:15",cat:"景點",n:"日光二荒山神社",jp:"ふたらさんじんじゃ",lat:36.7584,lng:139.5964,img:"Nikko_Futarasan_shrine_(52786784770).jpg",emoji:"⛩️",
+   d:"比東照宮歷史更早、安靜許多的神社，以結緣聞名。神苑裡有七福神，還有洗錢祈求財運的地方。",tags:["買"],stay:"30分",hours:"9:00–16:00",fee:"神苑 300円",q:"日光二荒山神社",
+   tip:"結緣御守是兩個人的好紀念，可以挑一對。",
+   go:"步行 約 3 分"},
+  {no:7,t:"14:50",cat:"景點",n:"輪王寺 大猷院",jp:"たいゆういん",lat:36.7591,lng:139.5953,img:"Le_Kara-mon,_la_porte_chinoise_du_temple_Taiyuin_(Nikko,_Japon)_(29492478408).jpg",emoji:"🍁",
+   d:"三代將軍家光的靈廟，黑與金的低調配色，人比東照宮少很多。秋天杉木配楓葉，最適合兩個人慢慢走。",tags:["拍"],stay:"40分",hours:"8:00–16:00（受理至 15:30）",fee:"輪王寺券（上午已買）",q:"輪王寺 大猷院",
+   warn:"15:30 前一定要進場",
+   tip:"從仁王門往上拍石階與一層層的門，楓葉在兩側當框。",
+   go:"走下山到飯店 check in、休息暖身（約 15–20 分）"},
+  {no:8,t:"17:30",cat:"活動",n:"ライトアップNIKKO 2026",jp:"よるの にっこう",lat:36.7553,lng:139.6008,img:null,emoji:"🏮",
+   d:"只在 11/6–8 三天舉辦的世界遺產夜間點燈，輪王寺三佛堂、東照宮五重塔、二荒山神社都會打上燈光，西參道還有小學生畫的行燈。今晚 18:30 三佛堂前有和太鼓演奏，旁邊的特設美食區可以直接當晚餐。",tags:["拍","吃"],stay:"約 2 小時",hours:"11/6・7 17:00–21:00／11/8 至 20:00",fee:"活動免費",q:"日光山輪王寺 三仏堂",
+   warn:"夜裡很冷，戴手套、毛帽；石階暗，手機手電筒備好",
+   tip:"18:00、19:00 從勝道上人像前出發的殿堂案內人免費導覽可以跟。拍夜景時手肘靠著欄杆穩住，或用手機夜間模式。",
+   go:"步行回飯店 約 15–20 分"}
+  ],
+  stay:{t:"第 1 晚・日光市區一般飯店",items:["今晚要看點燈，建議住<b>走路就能到社寺</b>的地方。","<b>日光金谷ホテル</b>：明治 6 年創業的古典飯店，在神橋旁，走到點燈會場約 10 分；晚餐的傳統西餐很有名（較高價、要預約）。","<b>東武日光站周邊</b>：價格選擇多，但走到會場約 30 分，晚上可搭巴士或計程車。"]}
+},
+2:{name:"11/7 六", sub:"御用邸・湯波 → 鬼怒川",
+  hint:[["🚶","週六＋點燈活動，二社一寺周邊從上午就會塞車，市區移動以走路為主。"],["🧥","早上河邊步道最冷，帽子、圍巾先戴上，進御用邸室內再脫。"],["🧦","御用邸室內要脫鞋，木地板很冰，穿厚一點的襪子。"],["🌅","鬼怒川日落約 16:40，吊橋排在 15:00 前光線最好。"]],
+  stops:[
+  {no:9,t:"08:20",cat:"景點",n:"憾満ヶ淵（並び地藏）",jp:"かんまんがふち",lat:36.7492,lng:139.5896,img:"Jizo_Statues_along_Kanmanga_Fuchi_Path_-_Nikko_-_Japan_(48054532187).jpg",emoji:"🗿",
+   d:"大谷川邊一排戴紅帽、披紅圍兜的地藏，傳說每次數都數不一樣（化け地藏）。早上幾乎沒人，安靜得像另一個世界。",tags:["拍"],stay:"40分",hours:"散步自由・免費",q:"憾満ヶ淵 日光",
+   warn:"熊出沒地區：兩人結伴，別走太深",
+   tip:"蹲低用斜角拍，讓一排紅帽一路延伸到畫面深處。",
+   go:"步行 約 10 分（過含滿大谷橋）"},
+  {no:10,t:"09:15",cat:"景點",n:"日光田母沢御用邸記念公園",jp:"たもざわごようてい",lat:36.7525,lng:139.5911,img:"Nikko_former_imperial_villa_Tamozawa.jpg",emoji:"🏛️",
+   d:"大正天皇的避暑御用邸，有 100 多個房間的大型木造宮殿建築。從室內緣側望出去的回遊式庭園，就是一幅楓紅屏風。",tags:["拍","買"],stay:"70分",hours:"11 月 9:00–16:30（受理至 15:45）",fee:"600円",q:"日光田母沢御用邸記念公園",
+   warn:"週六遊客多，9:00 一開園就進場最舒服",
+   tip:"從室內往庭園拍，用障子或門框當畫框。賣店的「御用邸ガトーショコラ」1,300円 可當伴手禮。",
+   go:"步行 約 5 分（御用邸通）"},
+  {no:11,t:"10:30",cat:"美食",n:"日光珈琲 御用邸通",jp:"にっこうこーひー",lat:36.7532,lng:139.5953,img:null,emoji:"☕",opt:1,
+   d:"老民家改裝的自家烘焙咖啡店。午餐前來一杯手沖、讓腳休息一下。",tags:["吃"],stay:"30分",hours:"10:00–17:00",q:"日光珈琲 御用邸通",
+   go:"步行 約 20 分（沿國道往神橋方向；週六巴士容易卡在車陣裡）"},
+  {no:12,t:"11:15",cat:"美食",n:"ゆば御膳 さんフィールド",jp:"ゆばごぜん",lat:36.7512,lng:139.6085,img:null,emoji:"🥢",
+   d:"幾位阿姨經營的小店，「ゆばの御膳」一次吃到十幾道湯波料理，從刺身、煮物到甜點。加點的湯波刺身很推薦。",tags:["吃"],stay:"60分",hours:"11:00–17:00（週六至 18:00）",menu:"ゆばの御膳 2,200円",q:"ゆば御膳 さんフィールド 日光",
+   warn:"只收現金・不能預約；週六一定排隊，越早到越好",
+   go:"步行 約 1 分"},
+  {no:13,t:"12:20",cat:"購物",n:"日光宮前だんご",jp:"みやまえだんご",lat:36.7511,lng:139.6082,img:null,emoji:"🍡",opt:1,
+   d:"享保 8 年（1723 年）創業的丸子老店，就在さんフィールド旁邊。現烤醬油丸子當飯後點心剛好。",tags:["吃"],stay:"15分",hours:"11:00–16:30・週三四休",q:"日光宮前だんご",
+   go:"拿行李 → 東武日光 → 下今市轉車 → 鬼怒川溫泉 約 40 分"},
+  {no:14,t:"14:00",cat:"景點",n:"鬼怒楯岩大吊橋・楯岩展望台",jp:"きぬたていわおおつりばし",lat:36.8206,lng:139.7084,img:"Kinu-Tateiwa_Ō-Tsuribashi_bridge.jpg",emoji:"🌁",
+   d:"全長 140m、高 37m 的步行吊橋，俯瞰鬼怒川溪谷的紅葉，溫泉街一帶例年 10 月下旬〜11 月上旬最美。過橋後爬一段階梯到展望台，旁邊有結緣之鐘可以兩個人一起敲。",tags:["拍"],stay:"50分",hours:"24 小時・免費",q:"鬼怒楯岩大吊橋",
+   tip:"橋中央特別加寬的地方就是觀景點，往下游拍溪谷與溫泉街。",
+   go:"步行 1 分"},
+  {no:15,t:"14:50",cat:"活動",n:"足湯カフェ エスポ",jp:"あしゆかふぇ",lat:36.8203,lng:139.7096,img:null,emoji:"♨️",opt:1,
+   d:"就在吊橋入口旁，邊泡腳邊喝飲料，看吊橋與山景。",tags:[],stay:"30分",hours:"9:00–17:00・週四休",q:"足湯カフェ エスポ 鬼怒川",
+   go:"步行或旅館接駁 → check in"}
+  ],
+  stay:{t:"第 2 晚・鬼怒川溫泉旅館（含晚餐）",items:["<b>鬼怒川温泉 あさや</b>：溫泉街最高處的空中庭園露天風呂，餐點可選自助或會席。","<b>ものぐさの宿 花千郷</b>：客房面向鬼怒川，晚餐是有栃木牛、湯波的和會席。","<b>鬼怒川プラザホテル</b>：就在溪谷邊，可以看到河景；部分方案附貸切溫泉。","週六晚上是最熱門的一晚，還沒訂的話要盡快。選「溪谷側」房型，想兩人一起泡，找有客室露天風呂或貸切風呂的方案。"]}
+},
+3:{name:"11/8 日", sub:"龍王峡 → 回東京",
+  hint:[["👟","龍王峡往溪谷是很陡的下坡階梯，穿防滑的鞋，雨天後特別滑。"],["🚃","龍王峡站約 1 小時 1 班，去之前先記好回程時刻。"],["🎒","行李寄放鬼怒川溫泉站置物櫃，輕裝逛溫泉街。"],["🍁","龍王峡例年 10 月下旬〜11 月中旬見頃，11/8 正在季節中。"]],
+  stops:[
+  {no:16,t:"09:30",cat:"景點",n:"龍王峡",jp:"りゅうおうきょう",lat:36.8602,lng:139.7175,img:"Ryuokyo,_Tochigi.jpg",emoji:"🐉",
+   d:"鬼怒川切出的溪谷，白色奇岩、翡翠綠的河水和兩岸紅葉。從虹見之瀑走到むささび橋再繞回車站，一圈約 1 小時。",tags:["拍"],stay:"80分",hours:"散步自由・免費",q:"龍王峡 虹見の滝",
+   tip:"站在むささび橋上俯拍溪谷，河水的綠和紅葉對比最強。",
+   go:"電車 約 20 分 → 鬼怒川溫泉站"},
+  {no:17,t:"11:45",cat:"美食",n:"ギャラリーカフェ ペイントE",jp:"ぺいんとい",lat:36.8224,lng:139.7141,img:null,emoji:"🥪",
+   d:"鬼怒川溫泉站附近的人氣小咖啡館，法式吐司和雞蛋三明治評價很高，份量大。",tags:["吃"],stay:"60分",hours:"8:30–17:00・週三休",menu:"フレンチトースト",q:"ギャラリーカフェ ペイントE 鬼怒川",
+   go:"站前接駁巴士 約 5 分（時間夠再去）"},
+  {no:18,t:"13:00",cat:"活動",n:"鬼怒川溫泉纜車・丸山山頂",jp:"きぬがわおんせんろーぷうぇい",lat:36.8371,lng:139.7184,img:"Kinugawaonsen-Ropeway.JPG",emoji:"🚡",opt:1,
+   d:"從溫泉街搭纜車上丸山，山頂展望台可以一次看完溫泉街和山上的紅葉。不上山的話，就在車站周邊補買伴手禮。",tags:["拍","買"],stay:"約 1 小時",hours:"9:00–16:00",q:"鬼怒川温泉ロープウェイ",
+   go:"回鬼怒川溫泉站 → 15:19 スペーシアX 8號 → 浅草 17:35"}
+  ]}
+};
+
+/* ── 地圖 ── */
+let map, markers = {}, routes = {}, curDay = 1, tileFails = 0, tileOk = 0;
+const mapnote = $("#mapnote");
+function pinIcon(no, d){ return L.divIcon({className:"", html:`<div class="pin" style="background:${DAYCOL[d]}">${no}</div>`, iconSize:[26,26], iconAnchor:[13,13]}); }
+function initMap(){
+  if (!window.L){ $("#mapwrap").classList.add("map-off"); mapnote.hidden=false; mapnote.textContent="地圖暫時無法載入"; return; }
+  map = L.map("map", {zoomControl:true, scrollWheelZoom:false}).setView([36.78,139.66], 11);
+  const tl = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {attribution:"&copy; OpenStreetMap", maxZoom:18});
+  tl.on("tileerror", () => { tileFails++; if (tileFails > 2 && tileOk === 0){ $("#mapwrap").classList.add("map-off"); mapnote.hidden=false; mapnote.textContent="底圖未載入，景點位置與路線仍正確"; } });
+  tl.on("tileload", () => { tileOk++; mapnote.hidden = true; $("#mapwrap").classList.remove("map-off"); });
+  tl.addTo(map);
+  const lbl = (ll, t) => L.marker(ll, {icon:L.divIcon({className:"",html:"",iconSize:[0,0]})}).bindTooltip(t,{permanent:true,direction:"right",className:"lbl",offset:[6,0]}).addTo(map);
+  lbl([36.7479,139.6195],"東武日光站"); lbl([36.8233,139.7167],"鬼怒川溫泉站"); lbl([36.725,139.690],"下今市（轉車）");
+  L.polyline([[36.7479,139.6195],[36.725,139.690],[36.79,139.71],[36.8233,139.7167],[36.8608,139.7187]],{color:"#6E7772",weight:3,opacity:.55,dashArray:"2 6"}).addTo(map);
+  [1,2,3].forEach(d => {
+    const col = getComputedStyle(document.documentElement).getPropertyValue(DAYCOL[d].slice(4,-1)).trim();
+    const pts = DAYS[d].stops.map(s => [s.lat,s.lng]);
+    routes[d] = L.polyline(pts, {color:col, weight:3, opacity:.7, dashArray:"8 6"}).addTo(map);
+    DAYS[d].stops.forEach(s => {
+      markers[s.no] = L.marker([s.lat,s.lng], {icon:pinIcon(s.no,d)}).addTo(map)
+        .bindPopup(`<b>${s.no}. ${s.n}</b><br><span style="font-size:11px">${s.t}・${s.cat}</span><br><a href="${gm(s.q)}" target="_blank" rel="noopener">Google 地圖導航 ↗</a>`);
+    });
+  });
+}
+function focusDay(d){
+  if (!map) return;
+  map.fitBounds(routes[d].getBounds(), {padding:[34,34], maxZoom:15});
+  [1,2,3].forEach(k => routes[k].setStyle({opacity: k===d ? .85 : .2}));
+}
+function flyTo(no){
+  if (!map || !markers[no]) return;
+  map.flyTo(markers[no].getLatLng(), 16, {duration:.7}); markers[no].openPopup();
+  $("#mapwrap").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+/* ── 行程渲染 ── */
+function imgBlock(s, d){
+  const g = `<div class="grad" ${s.img?"":'style="display:grid"'}>${s.emoji}</div>`;
+  const im = s.img ? `<img src="${ph(s.img)}" alt="${s.n}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';var c=this.parentNode.querySelector('.credit');if(c)c.hidden=true">` : "";
+  const cr = s.img ? `<a class="credit" href="${cp(s.img)}" target="_blank" rel="noopener">📷 Wikimedia Commons</a>` : "";
+  return `<div class="ph">${im}${g}${cr}<span class="num pin" style="background:${DAYCOL[d]}">${s.no}</span></div>`;
+}
+function renderDay(d){
+  curDay = d;
+  const D = DAYS[d];
+  document.querySelectorAll(".daybtn").forEach(b => b.setAttribute("aria-pressed", b.dataset.d == d));
+  $("#p-trip").style.setProperty("--dc", DAYCOL[d]); $("#p-trip").style.setProperty("--dw", DAYW[d]);
+  $("#dayhint").innerHTML = `<b class="round">${D.name}・今日穿搭＋紅葉提示</b>` + D.hint.map(h=>`<div class="row"><span class="ic">${h[0]}</span><span>${h[1]}</span></div>`).join("");
+  let h = "";
+  if (d===1) h += `<div class="go" style="margin-top:14px"><span>🚃</span><span><b>07:50 浅草</b> スペーシアX 1號 → <b>09:39 東武日光</b>　在站內寄放行李</span></div>`;
+  if (d===3) h += `<div class="go" style="margin-top:14px"><span>🚃</span><span><b>09:00</b> 退房 → 鬼怒川溫泉站 → 龍王峡站 約 20 分</span></div>`;
+  D.stops.forEach(s => {
+    const tags = s.tags.map(t=>`<span class="tag t-${t}">必${t}</span>`).join("") + (s.opt?`<span class="tag t-opt">有空再去</span>`:"");
+    const meta = [["停留",s.stay],["時間",s.hours],s.fee?["門票",s.fee]:null,s.menu?["招牌",s.menu]:null].filter(Boolean).map(m=>`<dt>${m[0]}</dt><dd>${m[1]}</dd>`).join("");
+    h += `<article class="spot">${imgBlock(s,d)}<div class="sbody">
+      <div class="toprow"><span class="cat ${s.cat}">${s.cat}</span><span class="time">${s.t}</span></div>
+      <h3>${s.n}<span class="jp">${s.jp}</span></h3>
+      <p class="desc">${s.d}</p>
+      ${tags?`<div class="tags">${tags}</div>`:""}
+      <dl class="meta">${meta}</dl>
+      ${s.warn?`<div class="warn">⚠️ ${s.warn}</div>`:""}
+      ${s.tip?`<div class="tip"><b>📸 拍照小技巧</b>　${s.tip}</div>`:""}
+      <div class="acts"><a class="btn" href="${gm(s.q)}" target="_blank" rel="noopener">${PIN_SVG}導航</a><button class="btn ghost" type="button" data-fly="${s.no}">在地圖上看</button></div>
+    </div></article>`;
+    if (s.go) h += `<div class="go"><span>${/電車|スペーシア|轉車/.test(s.go)?"🚃":/巴士|バス/.test(s.go)?"🚌":"🚶"}</span><span>${s.go}</span></div>`;
+  });
+  if (D.stay) h += `<div class="stay"><span class="cat 住宿">住宿</span><h3>${D.stay.t}</h3><ul>${D.stay.items.map(i=>`<li>${i}</li>`).join("")}</ul></div>`;
+  $("#stops").innerHTML = h;
+  focusDay(d);
+}
+$("#days").innerHTML = [1,2,3].map(d=>`<button class="daybtn" type="button" data-d="${d}" style="--dc:${DAYCOL[d]}" aria-pressed="false"><b>${DAYS[d].name}</b><span>${DAYS[d].sub}</span></button>`).join("");
+$("#days").addEventListener("click", e => { const b = e.target.closest(".daybtn"); if (b){ renderDay(+b.dataset.d); store.set("day", +b.dataset.d); } });
+$("#stops").addEventListener("click", e => { const b = e.target.closest("[data-fly]"); if (b) flyTo(+b.dataset.fly); });
+
+/* ── 美食 ── */
+const FOOD = [
+ {k:"必吃",d:1,n:"日光さかえや",m:"揚げゆばまんじゅう",p:"東武日光站前。現炸現吃最好吃，店前有座位、附熱茶。9:30–17:00。",q:"日光さかえや 揚げゆばまんじゅう本舗",e:"🍡"},
+ {k:"必吃",d:1,n:"明治の館",m:"オムレツライス",p:"石造洋館餐廳，蛋包飯淋多蜜醬汁。午餐要抽號碼牌。11:00–19:30。",q:"明治の館 日光",e:"🍳"},
+ {k:"必吃",d:2,n:"ゆば御膳 さんフィールド",m:"ゆばの御膳 2,200円",p:"一套吃遍各種湯波，加點湯波刺身。只收現金、不能預約。11:00–17:00（週六至 18:00）。",q:"ゆば御膳 さんフィールド 日光",e:"🥢"},
+ {k:"咖啡",d:2,n:"日光珈琲 御用邸通",m:"自家烘焙手沖",p:"老民家空間，也有甜點、咖哩。10:00–17:00。",q:"日光珈琲 御用邸通",e:"☕"},
+ {k:"晚餐",d:1,n:"日光金谷ホテル",m:"傳統西餐",p:"明治時代延續至今的飯店料理，要預約。想邊看點燈邊吃，也可以在三佛堂前的點燈特設美食區解決。",q:"日光金谷ホテル",e:"🍽️"},
+ {k:"必吃",d:3,n:"ギャラリーカフェ ペイントE",m:"フレンチトースト",p:"鬼怒川溫泉站附近，8:30 就開門。週三休。",q:"ギャラリーカフェ ペイントE 鬼怒川",e:"🥪"},
+ {k:"咖啡",d:3,n:"ウォーターサイドカフェテラス",m:"ガレット",p:"大片玻璃窗面對錦鯉池。11:00–14:30，週四休，假日常要等。",q:"ウォーターサイドカフェテラス 鬼怒川",e:"🫖"},
+ {k:"必買",d:1,n:"日光人形焼 みしまや",m:"三猿・眠貓造型人形燒",p:"東照宮名物做成人形燒，造型精緻，在東武日光站往神橋的路上。9:00–17:00（售完為止），週四休。",q:"日光人形焼みしまや",e:"🐒"},
+ {k:"必吃",d:2,n:"日光宮前だんご",m:"現烤醬油丸子",p:"享保 8 年（1723 年）創業的老店，就在さんフィールド旁。11:00–16:30，週三四休。",q:"日光宮前だんご",e:"🍡"},
+ {k:"必買",d:2,n:"田母沢御用邸 賣店",m:"御用邸ガトーショコラ 1,300円",p:"參觀完在賣店買，適合送人。",q:"日光田母沢御用邸記念公園",e:"🍫"}
+];
+let fk = "全部";
+function renderFood(){
+  const ks = ["全部","必吃","必買","咖啡","晚餐"];
+  $("#ffilter").innerHTML = ks.map(k=>`<button class="fchip" type="button" aria-pressed="${k===fk}">${k}</button>`).join("");
+  $("#foodlist").innerHTML = FOOD.filter(f=>fk==="全部"||f.k===fk).map(f=>`<div class="food">
+    <div class="fimg">${f.img?`<img src="${ph(f.img)}" alt="${f.n}" loading="lazy" onerror="this.remove()">`:""}<div class="grad">${f.e}</div></div>
+    <div class="fb"><span class="cat ${f.k==="必買"?"購物":"美食"}">${f.k}</span> <span class="small muted">Day ${f.d}</span>
+    <h3>${f.n}</h3><div class="menu">${f.m}</div><p>${f.p}</p>
+    <div class="acts"><a class="btn" style="--dc:var(--kin)" href="${gm(f.q)}" target="_blank" rel="noopener">${PIN_SVG}導航</a></div></div></div>`).join("");
+}
+$("#ffilter").addEventListener("click", e => { const b=e.target.closest(".fchip"); if(b){ fk=b.textContent; renderFood(); } });
+
+/* ── 打包清單 ── */
+const PACK_DEF = {
+ "隨身背包":[["現金（含零錢）",1],["交通 IC 卡（Suica／PASMO）",1],["手機＋行動電源",1],["特急 QR／訂位畫面截圖",1],["暖暖包",4],["摺疊傘",1],["熊鈴（可選）",1]],
+ "行李":[["發熱衣",2],["毛衣／刷毛",2],["防風外套",1],["圍巾・手套・毛帽",1],["厚襪子",3],["換洗衣物",2],["好走的防滑鞋",1],["裝濕毛巾的袋子",1]],
+ "購物清單":[["揚げゆばまんじゅう（現吃）",1],["日光湯波（要冷藏）",1],["三猿人形燒",1],["御用邸ガトーショコラ",1]]
+};
+let pack = store.get("pack", null) || Object.fromEntries(Object.entries(PACK_DEF).map(([c,a])=>[c,a.map(([n,q])=>({n,q,done:false}))]));
+let pcat = "隨身背包";
+function renderPack(){
+  $("#packtabs").innerHTML = Object.keys(pack).map(c=>`<button class="fchip" type="button" aria-pressed="${c===pcat}" style="${c===pcat?'background:var(--sugi);border-color:var(--sugi);color:#fff':''}">${c}（${pack[c].filter(i=>i.done).length}/${pack[c].length}）</button>`).join("");
+  $("#packlist").innerHTML = pack[pcat].map((it,i)=>`<li class="${it.done?"done":""}">
+    <input type="checkbox" id="pk${i}" data-i="${i}" ${it.done?"checked":""} aria-label="${it.n}">
+    <label class="nm" for="pk${i}">${it.n.replace(/</g,"&lt;")}</label>
+    <button class="qb" type="button" data-dec="${i}" aria-label="減少">−</button><span class="qty">${it.q}</span>
+    <span style="display:flex;gap:2px"><button class="qb" type="button" data-inc="${i}" aria-label="增加">＋</button><button class="del" type="button" data-del="${i}" aria-label="刪除">✕</button></span></li>`).join("");
+  store.set("pack", pack);
+}
+$("#packtabs").addEventListener("click", e => { const b=e.target.closest(".fchip"); if(b){ pcat=b.textContent.replace(/（.*$/,""); renderPack(); } });
+$("#packlist").addEventListener("click", e => {
+  const t=e.target, list=pack[pcat];
+  if (t.dataset.inc) list[t.dataset.inc].q++;
+  else if (t.dataset.dec) list[t.dataset.dec].q = Math.max(1, list[t.dataset.dec].q-1);
+  else if (t.dataset.del) list.splice(+t.dataset.del,1);
+  else return; renderPack();
+});
+$("#packlist").addEventListener("change", e => { const i=e.target.dataset.i; if(i!==undefined){ pack[pcat][i].done=e.target.checked; renderPack(); } });
+$("#packform").addEventListener("submit", e => { e.preventDefault(); const v=$("#packin").value.trim(); if(!v) return; pack[pcat].push({n:v,q:1,done:false}); $("#packin").value=""; renderPack(); });
+
+/* ── 資料總匯 ── */
+const bk = store.get("booking", {});
+document.querySelectorAll(".field input").forEach(inp => {
+  inp.value = bk[inp.dataset.key] || "";
+  inp.addEventListener("input", () => { bk[inp.dataset.key]=inp.value; store.set("booking", bk); syncLink(); });
+});
+function syncLink(){ const v=(bk.link||"").trim(); const a=$("#bk-open"); if(/^https:\/\//.test(v)){ a.href=v; a.hidden=false; } else a.hidden=true; }
+syncLink();
+
+/* ── 天氣 ── */
+const W = [
+ {d:1,t:"日光市區・11/6",temp:"約 12–15℃",low:"點燈的晚上 約 4–8℃",li:["發熱衣＋毛衣＋防風外套","晚上看點燈加手套、毛帽、暖暖包","日落 約 16:40"]},
+ {d:2,t:"日光 → 鬼怒川・11/7",temp:"約 12–15℃",low:"清晨 約 3–6℃",li:["河邊步道體感更低，戴帽子圍巾","泡完溫泉出來別吹風太久","日落 約 16:40"]},
+ {d:3,t:"鬼怒川・龍王峡・11/8",temp:"約 12–15℃",low:"早上 約 4–6℃",li:["溪谷裡風大，外套要防風","下坡階梯多，穿防滑鞋","山區午後易起霧或小雨，帶摺疊傘"]}
+];
+$("#wgrid").innerHTML = W.map(w=>`<div class="wcard" style="--dc:${DAYCOL[w.d]}"><div class="wd">Day ${w.d}・${w.t}</div><div class="temp">${w.temp}<small>　白天（推估）</small></div><div class="small muted">${w.low}</div><ul>${w.li.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
+
+const day = (m,dd) => (m===10 ? dd-1 : 30+dd);
+const FR = [
+ ["湯ノ湖・竜頭滝","奧日光・約1,500m",day(10,1),day(10,20)],
+ ["中禅寺湖・華厳滝","1,269m",day(10,11),day(11,10)],
+ ["日光の社寺","東照宮一帶・約600m",day(11,1),day(11,20)],
+ ["田母沢御用邸 庭園","市區",day(10,21),day(11,20)],
+ ["龍王峡","鬼怒川上游・約400m",day(10,21),day(11,20)]];
+const pct = v => (v/61*100).toFixed(2)+"%";
+let fh = '<div></div><div class="fax">' + [["10/1",0],["10/11",10],["10/21",20],["11/1",31],["11/11",41],["11/21",51],["11/30",60]].map(([t,v])=>`<span style="left:${pct(v+.5)}">${t}</span>`).join("") + "</div>";
+FR.forEach(f => fh += `<div class="fl"><b>${f[0]}</b><span>${f[1]}</span></div><div class="trk"><div class="trip" style="left:${pct(day(11,6))};width:${pct(3)}"></div><div class="bar" style="left:${pct(f[2])};width:${pct(f[3]-f[2]+1)}"></div></div>`);
+$("#front").innerHTML = fh;
+
+/* ── 分頁 ── */
+const PAGES = ["trip","food","guide","weather"];
+function show(p){
+  if (!PAGES.includes(p)) p = "trip";
+  PAGES.forEach(k => $("#p-"+k).hidden = k!==p);
+  document.querySelectorAll("#nav button").forEach(b => b.setAttribute("aria-selected", b.dataset.p===p));
+  if (p==="trip" && map) setTimeout(()=>map.invalidateSize(),50);
+  window.scrollTo({top:0});
+}
+$("#nav").addEventListener("click", e => { const b=e.target.closest("button"); if(b){ location.hash = b.dataset.p; } });
+window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+
+/* ── boot ── */
+initMap();
+renderDay(store.get("day",1));
+renderFood(); renderPack();
+show(location.hash.slice(1) || "trip");
+</script>
+
+</body>
+</html>
